@@ -12,8 +12,6 @@
 - Domain: historical-document related language, including names, titles, institutions, and narrative passages.
 
 ## Data Size
-
-- Total released rows in this folder: 1000.
 - No train, development, or test split is included.
 
 ## Construction Policy
