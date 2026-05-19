@@ -4,7 +4,6 @@
 
 - Read `train.tsv` as UTF-8 text.
 - Preserved the header `input<TAB>output`.
-- Selected the first 1000 nonempty data rows after the header.
 - Preserved the original row order.
 
 ## Output Format
