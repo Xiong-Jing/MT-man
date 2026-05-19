@@ -32,7 +32,5 @@ The TSV file has one header row:
 - `output`: Chinese translation.
 
 Dataset size and split policy:
-
-- Total rows: 1000.
 - No train, development, or test split is provided in this artifact.
 
