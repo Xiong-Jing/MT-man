@@ -1,0 +1,9 @@
+torch>=2.1
+transformers>=4.43
+peft>=0.11
+bitsandbytes>=0.43
+accelerate>=0.30
+sacrebleu>=2.4
+jieba>=0.42
+pyyaml>=6.0
+tqdm>=4.66

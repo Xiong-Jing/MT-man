@@ -1,0 +1,143 @@
+seed: 42
+
+progress:
+  enabled: true
+  dynamic_ncols: true
+  mininterval: 0.5
+  leave: true
+
+pipeline:
+  train_input_side: true
+
+paths:
+  base_model: ./models/base_model
+  train_data: ./data/train_data.jsonl
+  val_data: ./data/val_data.jsonl
+  memory_path: ./outputs/memory/memory.jsonl
+  coverage_report_path: ./outputs/memory/coverage_report.json
+  output_dir: ./outputs/ioce_lexical
+  eval_output_dir: ./outputs/ioce_lexical/eval
+  input_ckpt_root: ""
+
+model:
+  use_4bit: true
+  bnb_4bit_quant_type: nf4
+  bnb_4bit_use_double_quant: true
+  bnb_4bit_compute_dtype: bfloat16
+  torch_dtype: bfloat16
+  device_map: auto
+  trust_remote_code: false
+  lora_rank: 16
+  lora_alpha: 32
+  lora_dropout: 0.05
+  target_modules:
+    - q_proj
+    - k_proj
+    - v_proj
+    - o_proj
+    - gate_proj
+    - up_proj
+    - down_proj
+
+lmsa:
+  dropout: 0.1
+
+stage1:
+  epochs: 2
+  train_batch_size: 1
+  grad_accum_steps: 8
+  learning_rate: 1.0e-4
+  weight_decay: 0.0
+  max_length: 512
+  max_samples: null
+  grad_clip: 1.0
+  log_steps: 10
+
+stage2:
+  epochs: 2
+  train_batch_size: 1
+  eval_batch_size: 1
+  grad_accum_steps: 8
+  learning_rate: 1.0e-4
+  weight_decay: 0.0
+  max_length: 512
+  max_samples: null
+  max_eval_samples: null
+  grad_clip: 1.0
+  log_steps: 10
+  use_bfloat16_for_lmsa: true
+
+memory:
+  max_samples: null
+  max_candidates_per_span: 16
+  min_span_freq: 1
+  heuristic_align: true
+  heuristic_weight: 0.2
+  tail_freq_threshold: 2
+
+calm:
+  max_span_len: 4
+  max_spans: 64
+  frequent_span_min_freq: 3
+  topk: 8
+  retrieve_multiplier: 3
+  topk_per_span: 8
+  enable_fallback_span: true
+  fallback_max_unigram: 8
+  min_candidate_pool: 1
+  phrase_mode: first_token
+  min_confidence: 0.0
+  confidence_power: 1.0
+  max_phrases: 64
+  mlp_hidden: 64
+  mlp_dropout: 0.1
+  alpha_train: 1.0
+  alpha_eval: 1.0
+  dynamic_alpha: true
+  dynamic_alpha_w1: 0.8
+  dynamic_alpha_w2: 0.25
+  dynamic_alpha_b: 0.0
+  alpha_min: 0.05
+  alpha_max: 1.0
+
+nart:
+  lambda_cal: 1.0
+  lambda_noise: 0.5
+  margin: 0.2
+  hard_negative_ratio: 0.5
+  random_negative_ratio: 0.5
+  min_noise_per_span: 2
+
+protocol:
+  use_internal_dev_split: true
+  dev_size: 1000
+  split_seed: 20260426
+  dev_metric_weights:
+    word_bleu4: 0.4
+    char_bleu4: 0.3
+    chrfpp: 0.3
+
+ioce_head:
+  epochs: 2
+  train_batch_size: 1
+  grad_accum_steps: 8
+  learning_rate: 5.0e-4
+  weight_decay: 0.0
+  max_length: 512
+  max_samples: null
+  grad_clip: 1.0
+  log_steps: 20
+
+eval:
+  max_new_tokens: 128
+  do_sample: false
+  num_beams: 1
+  repetition_penalty: 1.15
+  max_length: 512
+  batch_size: 1
+  max_samples: null
+  ece_bins: 10
+  high_conf_threshold: 0.5
+  calibration_temperature: auto
+  report_candidate_quantiles: true
+  calibration_max_samples: 1000
