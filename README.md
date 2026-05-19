@@ -21,9 +21,7 @@ python software/src/eval_ioce.py --config software/configs/ioce_emnlp.yaml
 
 ## Data Contents
 
-The `data/` directory contains a 1000-row unsplit sample for an extremely low-resource Manchu-to-Chinese machine translation task:
-
-- `data/data.tsv`: 1000 sentence pairs in a single unsplit TSV file.
+The `data/` directory contains sample for an extremely low-resource Manchu-to-Chinese machine translation task:
 - `data/data_statement.md`: dataset documentation.
 - `data/preprocessing.md`: selection and packaging procedure.
 - `data/license_or_access_note.md`: access and usage note.
