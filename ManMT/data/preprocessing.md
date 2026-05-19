@@ -13,7 +13,5 @@
 - Did not apply additional normalization, tokenization, or text rewriting.
 
 ## Integrity Checks
-
-- `data.tsv` contains exactly one header row and 1000 data rows.
 - The header is exactly `input<TAB>output`.
 - No split files are included in this folder.
