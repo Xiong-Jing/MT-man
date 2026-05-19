@@ -31,6 +31,3 @@ The TSV file has one header row:
 - `input`: Manchu sentence in Latin transliteration.
 - `output`: Chinese translation.
 
-Dataset size and split policy:
-- No train, development, or test split is provided in this artifact.
-
